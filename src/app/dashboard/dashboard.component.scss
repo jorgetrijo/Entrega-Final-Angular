@@ -1,0 +1,31 @@
+.container {
+  padding: 20px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.card {
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.events-section {
+  margin-top: 40px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 16px;
+}
+
+.secondary-text {
+  color: rgba(0, 0, 0, 0.54);
+}

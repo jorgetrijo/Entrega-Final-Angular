@@ -1,0 +1,28 @@
+<app-home-page></app-home-page>
+<h2>Iniciar sesión</h2>
+<div class="login-container">
+  <div class="input-container">
+    <mat-form-field>
+      <input matInput placeholder="Usuario" [(ngModel)]="usuario">
+    </mat-form-field>
+  </div>
+  <div class="input-container">
+    <mat-form-field>
+      <input matInput type="password" placeholder="Contraseña" [(ngModel)]="contrasena">
+    </mat-form-field>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" (click)="iniciarSesionConCarga()">Iniciar Sesión</button>
+  </div>
+  <div class="link-container">
+    <a><span>¿Olvidaste tu contraseña?</span></a>
+  </div>
+  <div class="link-container">
+    <a routerLink="/register"><span>Crear nuevo usuario</span></a>
+  </div>
+</div>
+<div class="overlay" *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+</div>
+<app-footer></app-footer>
+<router-outlet></router-outlet>

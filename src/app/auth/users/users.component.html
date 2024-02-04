@@ -1,0 +1,47 @@
+<app-home-page></app-home-page>
+<h2>Usuarios Registrados</h2>
+<mat-table [dataSource]="usuariosRegistrados" class="mat-elevation-z8">
+  <!-- Nombre Completo Column -->
+  <ng-container matColumnDef="nombreCompleto">
+    <mat-header-cell *matHeaderCellDef appTamañoLetra> Nombre y Apellido </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element | nombreCompleto }} </mat-cell>
+  </ng-container>
+
+  <!-- Usuario Column -->
+  <ng-container matColumnDef="usuario">
+    <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.usuario }} </mat-cell>
+  </ng-container>
+
+  <!-- Email Column -->
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
+  </ng-container>
+
+  <!-- Dirección Column -->
+  <ng-container matColumnDef="direccion">
+    <mat-header-cell *matHeaderCellDef> Dirección </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.direccion }} </mat-cell>
+  </ng-container>
+
+  <!-- Ciudad Column -->
+  <ng-container matColumnDef="ciudad">
+    <mat-header-cell *matHeaderCellDef> Ciudad </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.ciudad }} </mat-cell>
+  </ng-container>
+
+  <!-- Acciones Column -->
+  <ng-container matColumnDef="acciones">
+    <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="eliminarRegistro(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+</mat-table>
+<app-footer></app-footer>

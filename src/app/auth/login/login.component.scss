@@ -1,0 +1,45 @@
+h2 {
+  text-align: center;
+}
+.login-container {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.button-container {
+  text-align: center;
+}
+.link-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.link-container span {
+  cursor: pointer;
+  color: #1976d2; /* Puedes ajustar el color según tus preferencias */
+}
+
+.link-container span:hover {
+  text-decoration: underline;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Ajusta el valor de transparencia según lo necesites */
+  z-index: 9999; /* Asegura que el overlay esté por encima de todo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,117 @@
+<app-home-page></app-home-page>
+<h2 >Registrar Usuario</h2>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="datosPersonales">
+    <form [formGroup]="datosPersonales">
+      <ng-template matStepLabel>Datos Personales</ng-template>
+      <mat-form-field>
+        <mat-label >Nombre</mat-label>
+        <input matInput placeholder="" formControlName="nombre" required />
+        <mat-error *ngIf="datosPersonales.get('nombre')?.hasError('required')">
+          Campo requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Apellido</mat-label>
+        <input matInput placeholder="" formControlName="apellido" required />
+        <mat-error
+          *ngIf="datosPersonales.get('apellido')?.hasError('required')"
+        >
+          Campo requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Usuario</mat-label>
+        <input matInput placeholder="" formControlName="usuario" required />
+        <mat-error *ngIf="datosPersonales.get('usuario')?.hasError('required')">
+          Campo requerido
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="" formControlName="email" required />
+        <mat-error *ngIf="datosPersonales.get('email')?.hasError('required')">
+          Campo requerido
+        </mat-error>
+        <mat-error *ngIf="datosPersonales.get('email')?.hasError('email')">
+          Ingresa un mail válido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field hintLabel="Min 6 caracteres">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          required
+          #input
+          minlength="6"
+          formControlName="contraseña"
+        />
+        <mat-error
+          *ngIf="datosPersonales.get('contraseña')?.hasError('required')"
+        >
+          Campo requerido
+        </mat-error>
+        <mat-error
+          *ngIf="datosPersonales.get('contraseña')?.hasError('minlength')"
+        >
+          Minimo 6 caracteres
+        </mat-error>
+        <mat-hint align="end">{{ input.value.length }}/6</mat-hint>
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="ubicacion">
+    <form [formGroup]="ubicacion">
+      <ng-template matStepLabel>Ubicación</ng-template>
+      <mat-form-field>
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="direccion" placeholder="" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Ciudad</mat-label>
+        <input matInput formControlName="ciudad" placeholder="" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Pais</mat-label>
+        <mat-select>
+          <mat-option value="one">Argentina</mat-option>
+          <mat-option value="two">Brasil</mat-option>
+          <mat-option value="two">Colombia</mat-option>
+          <mat-option value="two">Chile</mat-option>
+          <mat-option value="two">Uruguay</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Volver</button>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Registrarse</ng-template>
+
+    <div>
+      <div *ngIf="mensajeError">{{ mensajeError }}</div>
+      <button mat-button matStepperPrevious>Volver</button>
+      <button mat-button (click)="guardarInformacionEnServicio(stepper)">
+        Guardar Información
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>
+<app-footer></app-footer>
+
