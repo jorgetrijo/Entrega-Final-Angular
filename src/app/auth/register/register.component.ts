@@ -12,8 +12,9 @@ import { Usuario } from '../../shared/interfaces/usuario.interface';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
+  mensajeError: string | null = null;
   hide = true;
-  datosPersonales = this.formBuilder.group({
+  datosPersonales: FormGroup = this.fb.group({
     nombre: ['', [Validators.required]],
     apellido: ['', Validators.required],
     usuario: ['', Validators.required],
@@ -21,92 +22,80 @@ export class RegisterComponent implements OnInit {
     contraseña: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  ubicacion = this.formBuilder.group({
+  ubicacion: FormGroup = this.fb.group({
     direccion: ['', Validators.required],
     ciudad: ['', Validators.required],
   });
 
   isLinear = true;
-  columnas: string[] = [
-    'nombreCompleto',
-    'usuario',
-    'email',
-    'direccion',
-    'ciudad',
-    'acciones',
-  ];
-  usuariosRegistrados = new MatTableDataSource<any>();
-  mensajeError: string | null = null;
+  columnas: string[] = ['nombreCompleto', 'usuario', 'email', 'direccion', 'ciudad', 'acciones'];
+  usuariosRegistrados = new MatTableDataSource<Usuario>();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private formularioService: FormularioService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
-    this.formularioService.usuariosRegistrados$.subscribe((usuarios) => {
-      this.usuariosRegistrados.data = usuarios;
+    this.actualizarListaUsuarios();
+  }
+
+  actualizarListaUsuarios() {
+    this.formularioService.obtenerUsuarios().subscribe({
+      next: (usuarios) => {
+        this.usuariosRegistrados.data = usuarios;
+      },
+      error: (error) => {
+        this.mostrarSnackBarError('Error al obtener la lista de usuarios');
+        console.error('Error al obtener usuarios', error);
+      }
     });
   }
 
-  getErrors(formControlName: string): ValidationErrors | null | undefined {
-    return this.datosPersonales.get(formControlName)?.errors;
-  }
+guardarInformacionEnServicio(stepper: MatStepper) {
+  const usuario: Usuario = {
+    ...this.datosPersonales.value,
+    ...this.ubicacion.value
+  };
 
-  guardarInformacionEnServicio(stepper: MatStepper) {
-    this.mensajeError = null;
-
-    const formularios = [this.datosPersonales, this.ubicacion];
-
-    // Verifica si algún formulario es inválido
-    if (formularios.some((form) => form.invalid)) {
-      this.mensajeError =
-        'Todos los campos son obligatorios. Complete la información faltante.';
+  this.formularioService.obtenerUsuarios().subscribe(usuarios => {
+    const existe = usuarios.some(u => u.usuario === usuario.usuario || u.email === usuario.email);
+    if (existe) {
+      this.mensajeError = 'Usuario y/o email ya existen. Elija otros datos.'; // Establecer el mensaje de error
       this.mostrarSnackBarError(this.mensajeError);
-
-      // Vuelve al primer paso del stepper
-      stepper.selectedIndex = 0;
-      return;
+      stepper.selectedIndex = 0; // Si es necesario, vuelve al primer paso
+    } else {
+      this.formularioService.agregarUsuario(usuario).subscribe({
+        next: () => {
+          this.mostrarSnackBarSuccess('Usuario creado con éxito');
+          this.datosPersonales.reset();
+          this.ubicacion.reset();
+          this.actualizarListaUsuarios(); // Actualiza la lista de usuarios
+          stepper.reset();
+          this.mensajeError = null; // Limpiar el mensaje de error
+        },
+        error: (error) => {
+          this.mostrarSnackBarError('Error al crear el usuario');
+          console.error('Error al agregar usuario', error);
+          this.mensajeError = 'Error al crear el usuario'; // Opcional: establecer un mensaje de error
+        }
+      });
     }
+  });
+}
 
-    const informacionCompleta: Usuario = {
-      nombre: this.datosPersonales.value.nombre ?? '',
-      apellido: this.datosPersonales.value.apellido ?? '',
-      usuario: this.datosPersonales.value.usuario ?? '',
-      email: this.datosPersonales.value.email ?? '',
-      contraseña: this.datosPersonales.value.contraseña ?? '',
-      direccion: this.ubicacion.value.direccion ?? '',
-      ciudad: this.ubicacion.value.ciudad ?? '',
-    };
-
-    // Verifica duplicados
-    if (this.esUsuarioDuplicado(informacionCompleta)) {
-      this.mostrarSnackBarError(
-        'Usuario y/o email ya existen. Elija otros datos.'
-      );
-
-      // Vuelve al primer paso del stepper
-      stepper.selectedIndex = 0;
-      return;
-    }
-
-    this.formularioService.agregarUsuario(informacionCompleta);
-
-    // Resetea formularios y elimina mensajes de error
-    formularios.forEach((form) => {
-      form.reset();
-      form.markAsUntouched();
+  eliminarRegistro(usuarioId: number) {
+    this.formularioService.eliminarUsuario(usuarioId).subscribe({
+      next: () => {
+        this.mostrarSnackBarSuccess('Usuario eliminado con éxito');
+        this.actualizarListaUsuarios(); // Actualiza la lista de usuarios
+      },
+      error: (error) => {
+        this.mostrarSnackBarError('Error al eliminar el usuario');
+        console.error('Error al eliminar usuario', error);
+      }
     });
-
-    this.mostrarSnackBarSuccess('Usuario creado con éxito');
-    stepper.selectedIndex = 0;
-  }
-
-  esUsuarioDuplicado(usuario: Usuario): boolean {
-    return this.formularioService
-      .obtenerUsuarios()
-      .some((u) => u.usuario === usuario.usuario || u.email === usuario.email);
   }
 
   mostrarSnackBarSuccess(mensaje: string) {
@@ -121,18 +110,5 @@ export class RegisterComponent implements OnInit {
       duration: 5000,
       panelClass: ['snackbar-error'],
     });
-  }
-  eliminarRegistro(element: any) {
-    this.formularioService.eliminarUsuario(element);
-
-    // Muestra el snackbar de éxito al eliminar un registro
-    this.snackBar.open('Usuario eliminado con éxito', 'Cerrar', {
-      duration: 5000,
-      panelClass: ['snackbar-delete'],
-    });
-
-    // Actualiza la fuente de datos de la tabla
-    this.usuariosRegistrados.data = this.formularioService.obtenerUsuarios();
-    this.usuariosRegistrados._updateChangeSubscription();
   }
 }

@@ -1,76 +1,41 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { Usuario } from '../../shared/interfaces/usuario.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormularioService {
-  private usuariosRegistradosSubject = new BehaviorSubject<Usuario[]>([]);
-  usuariosRegistrados$ = this.usuariosRegistradosSubject.asObservable();
+   private apiUrl = 'http://localhost:3000/usuarios'; // La URL base de tu API
 
-  private usuarioActualSubject = new Subject<Usuario | null>();
-  usuarioActual$ = this.usuarioActualSubject.asObservable();
+  constructor(private http: HttpClient) {}
 
-  private usuariosIniciales: Usuario[] = [
-    {
-      nombre: 'Jorge',
-      apellido: 'Trijo',
-      usuario: 'jtrijo',
-      email: 'jorge@coherhouse.com',
-      contraseña: 'secreta',
-      direccion: 'Av siempre viva 123',
-      ciudad: 'Springfield',
-    },
-    {
-      nombre: 'Estudiante',
-      apellido: 'Coderhouse',
-      usuario: 'coder',
-      email: 'estudiante@coherhouse.com',
-      contraseña: 'secreta',
-      direccion: 'Av nunca viva 123',
-      ciudad: 'Shelbyville',
-    },
-  ];
-
-  private usuarioActual: Usuario | null = null;
-
-  constructor() {
-    // Cargar usuarios iniciales al inicio
-    this.usuariosRegistradosSubject.next(this.usuariosIniciales);
+  // Obtener todos los usuarios registrados
+  obtenerUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl);
   }
 
-  agregarUsuario(usuario: Usuario) {
-    const usuariosActuales = this.usuariosRegistradosSubject.value;
+  // Agregar un nuevo usuario
+  agregarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.apiUrl, usuario);
+  }
 
-    // Verificar duplicados antes de agregar
-    const usuarioExistente = usuariosActuales.some(
-      (u) => u.usuario === usuario.usuario || u.email === usuario.email
+  // Obtiene el usuario que se intenta loguear
+  obtenerUsuario(nombreUsuario: string): Observable<Usuario | undefined> {
+  return this.http.get<Usuario[]>(`${this.apiUrl}?usuario=${nombreUsuario}`)
+    .pipe(
+      map(usuarios => usuarios[0]) // Toma el primer usuario del array
     );
+}
 
-    if (!usuarioExistente) {
-      this.usuariosRegistradosSubject.next([...usuariosActuales, usuario]);
-
-      // Actualizar el usuario actual
-      this.usuarioActual = usuario;
-    }
+  // Actualizar un usuario
+  actualizarUsuario(usuarioId: number, usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.apiUrl}/${usuarioId}`, usuario);
   }
 
-  obtenerUsuarioActual(): Usuario | null {
-    return this.usuarioActual;
-  }
-
-  obtenerUsuario(nombreUsuario: string): Usuario | undefined {
-    return this.usuariosRegistradosSubject.value.find(u => u.usuario === nombreUsuario);
-  }
-
-  obtenerUsuarios() {
-    return this.usuariosRegistradosSubject.value;
-  }
-
-  eliminarUsuario(usuario: Usuario) {
-    const usuariosActuales = this.usuariosRegistradosSubject.value;
-    const nuevosUsuarios = usuariosActuales.filter((u) => u !== usuario);
-    this.usuariosRegistradosSubject.next([...nuevosUsuarios]);
+  // Eliminar un usuario por su ID
+  eliminarUsuario(usuarioId: number): Observable<{}> {
+    return this.http.delete(`${this.apiUrl}/${usuarioId}`);
   }
 }

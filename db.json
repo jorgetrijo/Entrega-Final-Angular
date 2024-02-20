@@ -1,0 +1,24 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Jorge",
+      "apellido": "Trijo",
+      "usuario": "jtrijo",
+      "email": "jorge@coherhouse.com",
+      "contraseña": "secreta",
+      "direccion": "Av siempre viva 123",
+      "ciudad": "Springfield"
+    },
+    {
+      "id": 2,
+      "nombre": "Estudiante",
+      "apellido": "Coderhouse",
+      "usuario": "coder",
+      "email": "estudiante@coherhouse.com",
+      "contraseña": "secreta",
+      "direccion": "Av nunca viva 123",
+      "ciudad": "Shelbyville"
+    }
+  ]
+}

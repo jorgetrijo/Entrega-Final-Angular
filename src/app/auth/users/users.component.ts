@@ -25,19 +25,39 @@ export class UsersComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) {};
 
-
   ngOnInit() {
-    this.formularioService.usuariosRegistrados$.subscribe((usuarios) => {
-      this.usuariosRegistrados.data = usuarios;
+    this.cargarUsuarios();
+  }
+
+  cargarUsuarios() {
+    this.formularioService.obtenerUsuarios().subscribe({
+      next: (usuarios) => {
+        this.usuariosRegistrados.data = usuarios;
+      },
+      error: (error) => {
+        this.mostrarSnackBar('Error al cargar los usuarios', 'snackbar-error');
+        console.error('Error al obtener usuarios', error);
+      }
     });
   }
-  eliminarRegistro(element: Usuario) {
-    this.formularioService.eliminarUsuario(element);
 
-    // Muestra el snackbar de éxito al eliminar un registro
-    this.snackBar.open('Usuario eliminado con éxito', 'Cerrar', {
+  eliminarRegistro(usuarioId: number) {
+    this.formularioService.eliminarUsuario(usuarioId).subscribe({
+      next: () => {
+        this.mostrarSnackBar('Usuario eliminado con éxito', 'snackbar-delete');
+        this.cargarUsuarios(); // Refresca la lista de usuarios
+      },
+      error: (error) => {
+        this.mostrarSnackBar('Error al eliminar el usuario', 'snackbar-error');
+        console.error('Error al eliminar usuario', error);
+      }
+    });
+  }
+
+  mostrarSnackBar(mensaje: string, clase: string) {
+    this.snackBar.open(mensaje, 'Cerrar', {
       duration: 5000,
-      panelClass: ['snackbar-delete'],
+      panelClass: [clase],
     });
   }
 }

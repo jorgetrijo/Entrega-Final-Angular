@@ -6,12 +6,14 @@ import { RegisterComponent } from './auth/register/register.component';
 import { UsersComponent } from './auth/users/users.component';
 import { HomePageComponent } from './shared/components/home-page/home-page.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'users', component: UsersComponent },
-  { path: '', component: DashboardComponent },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard]  },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard]  },
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

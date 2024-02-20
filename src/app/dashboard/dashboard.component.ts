@@ -29,4 +29,6 @@ export class DashboardComponent {
     }
   ];
 
+  importe:number = 5000.6
+
 }

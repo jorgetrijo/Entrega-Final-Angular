@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RouterModule } from '@angular/router';
     DashboardModule,
     AuthModule,
     CoreModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([]),
+    HttpClientModule
   ],
   providers: [
     provideAnimationsAsync(), {provide: MAT_DATE_LOCALE, useValue: 'es-Ar'}

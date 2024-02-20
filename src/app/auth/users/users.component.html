@@ -35,7 +35,7 @@
   <ng-container matColumnDef="acciones">
     <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <button mat-icon-button (click)="eliminarRegistro(element)">
+      <button mat-icon-button (click)="eliminarRegistro(element.id)">
         <mat-icon>delete</mat-icon>
       </button>
     </mat-cell>
