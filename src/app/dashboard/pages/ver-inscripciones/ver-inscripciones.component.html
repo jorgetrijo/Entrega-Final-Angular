@@ -1,0 +1,35 @@
+<app-home-page></app-home-page>
+<h3>Inscripciones de estudiantes</h3>
+<mat-accordion multi="true">
+  <mat-expansion-panel *ngFor="let alumno of objectKeys(inscripciones)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ alumno }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list>
+      <mat-list-item *ngFor="let materia of inscripciones[alumno]">
+        {{ materia }}
+      </mat-list-item>
+    </mat-list>
+  </mat-expansion-panel>
+</mat-accordion>
+<div *ngIf="!esSolicitudesBajaVacio()">
+  <h3>Solicitudes de baja pendientes</h3>
+  <mat-accordion multi="true">
+    <mat-expansion-panel *ngFor="let alumno of objectKeys(solicitudesBaja)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ alumno }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item *ngFor="let materia of solicitudesBaja[alumno]">
+          {{ materia }}
+          <button mat-button color="primary" (click)="aprobarBaja(materia, alumno)">Aprobar Baja</button>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<app-footer></app-footer>

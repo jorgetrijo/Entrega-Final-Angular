@@ -1,0 +1,15 @@
+<app-home-page></app-home-page>
+<div class="inscripcion-container">
+  <form [formGroup]="inscripcionForm" (ngSubmit)="inscribir()">
+    <mat-form-field appearance="fill">
+      <mat-label>Materias</mat-label>
+      <mat-select formControlName="materiasSeleccionadas" multiple>
+        <mat-option *ngFor="let materia of materias" [value]="materia">
+          {{ materia }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Inscribirse</button>
+  </form>
+</div>
+<app-footer></app-footer>

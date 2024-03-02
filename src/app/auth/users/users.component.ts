@@ -17,7 +17,8 @@ export class UsersComponent implements OnInit {
     'email',
     'direccion',
     'ciudad',
-    'acciones',
+    'rol',
+    'acciones'
   ];
 
   constructor(

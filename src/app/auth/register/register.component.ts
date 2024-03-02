@@ -20,12 +20,15 @@ export class RegisterComponent implements OnInit {
     usuario: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     contraseña: ['', [Validators.required, Validators.minLength(6)]],
+    rol: ['', Validators.required]
+
   });
 
   ubicacion: FormGroup = this.fb.group({
     direccion: ['', Validators.required],
     ciudad: ['', Validators.required],
   });
+
 
   isLinear = true;
   columnas: string[] = ['nombreCompleto', 'usuario', 'email', 'direccion', 'ciudad', 'acciones'];

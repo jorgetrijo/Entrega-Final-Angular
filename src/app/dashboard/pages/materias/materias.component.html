@@ -1,0 +1,19 @@
+<app-home-page></app-home-page>
+<div class="contenedor-cursos">
+<mat-accordion multi="true">
+  <mat-expansion-panel *ngFor="let curso of cursos">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ curso.nombre }}
+      </mat-panel-title>
+      <mat-panel-description>
+        Instructor: {{ curso.instructor }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <p>{{ curso.descripcion }}</p>
+    <p>Horario: {{ curso.horario }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+</div>
+<app-footer></app-footer>

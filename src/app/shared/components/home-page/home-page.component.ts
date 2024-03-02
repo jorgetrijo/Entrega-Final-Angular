@@ -14,12 +14,30 @@ import { Router } from '@angular/router';
 export class HomePageComponent implements OnDestroy {
   usuarioActual: Usuario | null = null;
   usuarioSubscription: Subscription;
+  usuarioAdmin:boolean = false;
+  usuarioEstudiante:boolean = false;
+  usuarioProfesor:boolean = false;
+
+
 
   constructor(private usuarioActualService: UsuarioActualService, private router: Router) {
-    this.usuarioSubscription = this.usuarioActualService.usuarioActual$.subscribe(usuario => {
-      this.usuarioActual = usuario;
-    });
-  }
+  this.usuarioSubscription = this.usuarioActualService.usuarioActual$.subscribe(usuario => {
+    this.usuarioActual = usuario;
+    // Restablece los indicadores para cada cambio de usuario
+    this.usuarioAdmin = false;
+    this.usuarioEstudiante = false;
+    this.usuarioProfesor = false;
+
+    // Asignar el valor verdadero según el rol del usuario actual
+    if (this.usuarioActual?.rol === 'admin') {
+      this.usuarioAdmin = true;
+    } else if (this.usuarioActual?.rol === 'estudiante') {
+      this.usuarioEstudiante = true;
+    } else if (this.usuarioActual?.rol === 'profesor') {
+      this.usuarioProfesor = true;
+    }
+  });
+}
 
   ngOnDestroy() {
     this.usuarioSubscription.unsubscribe();
@@ -29,4 +47,7 @@ export class HomePageComponent implements OnDestroy {
     this.usuarioActualService.cerrarSesion();
     this.router.navigate(['/login']);
   }
+
+
 }
+

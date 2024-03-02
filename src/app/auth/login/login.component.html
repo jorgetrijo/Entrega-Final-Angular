@@ -2,13 +2,22 @@
 <h2>Iniciar sesión</h2>
 <div class="login-container">
   <div class="input-container">
-    <mat-form-field>
+    <mat-form-field class="anchoInput">
       <input matInput placeholder="Usuario" [(ngModel)]="usuario">
     </mat-form-field>
   </div>
   <div class="input-container">
-    <mat-form-field>
-      <input matInput type="password" placeholder="Contraseña" [(ngModel)]="contrasena">
+    <mat-form-field class="anchoInput">
+      <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" [(ngModel)]="contrasena" >
+      <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
     </mat-form-field>
   </div>
   <div class="button-container">

@@ -1,0 +1,18 @@
+<app-home-page></app-home-page>
+<mat-form-field appearance="fill">
+  <mat-label>Elige el mes y año</mat-label>
+  <input matInput [matDatepicker]="picker" (dateInput)="onMonthSelected($event)" [value]="currentMonth">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event, picker)"
+                  (monthSelected)="chosenMonthHandler($event, picker)">
+  </mat-datepicker>
+</mat-form-field>
+
+<mat-list>
+  <h3 mat-subheader>Parciales del Mes</h3>
+  <mat-list-item *ngFor="let parcial of parcialesDelMes">
+    <h4 matLine>{{ parcial.nombre }}</h4>
+    <p matLine>Fecha: {{ parcial.fecha | date: 'longDate' }}</p>
+  </mat-list-item>
+</mat-list>
+<app-footer></app-footer>

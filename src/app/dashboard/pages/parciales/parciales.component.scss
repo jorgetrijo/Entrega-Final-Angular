@@ -1,0 +1,25 @@
+.container {
+  margin: 20px;
+}
+
+
+
+mat-list-item {
+  margin-top: 50px;
+
+}
+
+.item {
+  height: 100%;
+}
+
+.mdc-list-item {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: visible;
+    padding: 0;
+    align-items: end;
+    cursor: pointer;
+}

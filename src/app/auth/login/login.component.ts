@@ -13,6 +13,7 @@ export class LoginComponent {
   usuario: string = '';
   contrasena: string = '';
   loading: boolean = false;
+  hide:boolean = true;
 
   constructor(
     private formularioService: FormularioService,

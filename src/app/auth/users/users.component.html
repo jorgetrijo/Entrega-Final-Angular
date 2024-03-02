@@ -31,6 +31,11 @@
     <mat-cell *matCellDef="let element"> {{ element.ciudad }} </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="rol">
+    <mat-header-cell *matHeaderCellDef> Rol </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.rol }} </mat-cell>
+  </ng-container>
+
   <!-- Acciones Column -->
   <ng-container matColumnDef="acciones">
     <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>

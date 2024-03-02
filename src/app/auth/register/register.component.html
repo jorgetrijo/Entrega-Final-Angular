@@ -69,6 +69,14 @@
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
       </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="rol">
+          <mat-option value="estudiante">Estudiante</mat-option>
+          <mat-option value="profesor">Profesor</mat-option>
+        </mat-select>
+      </mat-form-field>
       <div>
         <button mat-button matStepperNext>Siguiente</button>
       </div>
@@ -108,7 +116,7 @@
 
       <button mat-button matStepperPrevious>Volver</button>
       <button mat-button (click)="guardarInformacionEnServicio(stepper)">
-        Guardar Información
+        Confirmar registro
       </button>
     </div>
   </mat-step>

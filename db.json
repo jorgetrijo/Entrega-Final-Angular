@@ -2,23 +2,47 @@
   "usuarios": [
     {
       "id": 1,
-      "nombre": "Jorge",
-      "apellido": "Trijo",
-      "usuario": "jtrijo",
+      "nombre": "Estudiante",
+      "apellido": "Coderhouse",
+      "usuario": "estudiante",
       "email": "jorge@coherhouse.com",
       "contraseña": "secreta",
-      "direccion": "Av siempre viva 123",
-      "ciudad": "Springfield"
+      "direccion": "Piedras 123",
+      "ciudad": "Buenos Aires",
+      "rol": "estudiante"
     },
     {
       "id": 2,
-      "nombre": "Estudiante",
+      "nombre": "Profesor",
       "apellido": "Coderhouse",
-      "usuario": "coder",
+      "usuario": "profesor",
       "email": "estudiante@coherhouse.com",
       "contraseña": "secreta",
-      "direccion": "Av nunca viva 123",
-      "ciudad": "Shelbyville"
+      "direccion": "Av de Mayo 601",
+      "ciudad": "Rosario",
+      "rol": "profesor"
+    },
+    {
+      "id": 3,
+      "nombre": "Admin",
+      "apellido": "Coderhouse",
+      "usuario": "admin",
+      "email": "admin@coherhouse.com",
+      "contraseña": "secreta",
+      "direccion": "Boyaca",
+      "ciudad": "Mendoza",
+      "rol": "admin"
+    },
+    {
+      "id": "2c0a",
+      "nombre": "Ramon",
+      "apellido": "Perez",
+      "usuario": "perez",
+      "email": "ramon@perez",
+      "contraseña": "123456",
+      "rol": "estudiante",
+      "direccion": "fdgfg",
+      "ciudad": "dfgdfg"
     }
   ]
 }

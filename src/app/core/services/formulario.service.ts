@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class FormularioService {
-   private apiUrl = 'http://localhost:3000/usuarios'; // La URL base de tu API
+   private apiUrl = 'http://localhost:3000/usuarios'; // La URL base de la API
 
   constructor(private http: HttpClient) {}
 
